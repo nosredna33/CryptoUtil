@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Metafree::Demo CryptoUtil</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+<style>
+body {
+  background: #0a0a0a;
+  color: #0f0;
+  font-family: 'Roboto Mono', monospace;
+  padding: 2em;
+}
+input, textarea, button {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  background: #111;
+  color: #0f0;
+  border: 1px solid #0f0;
+  border-radius: 4px;
+  padding: 0.4em;
+  margin: 0.2em 0;
+  width: 100%;
+}
+button {
+  background: #0f0;
+  color: #111;
+  font-weight: bold;
+  cursor: pointer;
+}
+pre {
+  background: #111;
+  padding: 1em;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  font-size: 12px;
+  color: #9f9;
+}
+h1 { color: #0f0; text-align: center; }
+</style>
+<script src="./CryptoUtil.js"></script>
+</head>
+<body>
+
+<h1>🔐 Metafree :: CryptoUtil Demo</h1>
+
+<p>Teste de derivação, criptografia e assinatura local. Nenhum dado sai do navegador.</p>
+
+<label>Senha:</label>
+<input type="password" id="senha" value="SenhaForte!2025">
+
+<label>ID Único:</label>
+<input type="text" id="id" value="user-001">
+
+<label>Texto ou JSON:</label>
+<textarea id="dados" rows="5">{"nome":"Anderson","cargo":"DevSecOps"}</textarea>
+
+<div style="text-align:center; margin:1em 0;">
+  <button onclick="executarDemo()">Executar Teste Completo</button>
+</div>
+
+<h3>Resultado:</h3>
+<pre id="saida">⏳ Aguardando execução...</pre>
+
+<script>
+async function executarDemo() {
+  const senha = document.getElementById('senha').value.trim();
+  const id = document.getElementById('id').value.trim();
+  const dados = document.getElementById('dados').value.trim();
+  const out = document.getElementById('saida');
+  out.textContent = "🔄 Processando...\n";
+
+  try {
+    // 1️⃣ Deriva chave de autenticação (fixa)
+    const authKey = await CryptoUtil.deriveAuthKey(senha);
+
+    // 2️⃣ Deriva chave AES exclusiva por ID
+    const key = await CryptoUtil.deriveKey(senha, id);
+
+    // 3️⃣ Criptografa os dados
+    const encrypted = await CryptoUtil.encryptData(key, dados);
+
+    // 4️⃣ Descriptografa os dados
+    const decrypted = await CryptoUtil.decryptData(key, encrypted);
+
+    // 5️⃣ Gera par de chaves (ECDSA) e assina o texto
+    const { privateKey, publicKey } = await crypto.subtle.generateKey(
+      { name: "ECDSA", namedCurve: "P-256" },
+      true, ["sign", "verify"]
+    );
+
+    const signature = await CryptoUtil.signText(dados, privateKey);
+    const isValid = await CryptoUtil.verifyText(dados, signature, publicKey);
+
+    out.textContent =
+`✅ Execução concluída
+
+🔑 Auth Key (bcrypt compatível):
+${authKey}
+
+🧩 Encrypted:
+${encrypted}
+
+📜 Decrypted:
+${decrypted}
+
+✍️ Assinatura:
+${signature.slice(0, 60)}...
+
+📖 Verificação:
+${isValid ? '✔️ Assinatura válida' : '❌ Falha na verificação'}
+`;
+  } catch (err) {
+    out.textContent = "❌ Erro: " + err.message;
+    console.error(err);
+  }
+}
+</script>
+
+</body>
+</html>
