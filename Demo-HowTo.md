@@ -19,7 +19,7 @@ Ele demonstra **todo o ciclo criptográfico**:
 
 ### ⚙️ Como usar
 
-1. Coloque este arquivo na mesma pasta de `CryptoUtil.js`.
+1. Coloque este arquivo na mesma pasta de [`CryptoUtil.js`](https://github.com/nosredna33/CryptoUtil/blob/main/Demo_CryptoUtil.html).
 2. Abra no navegador (nenhum servidor necessário).
 3. Clique em **Executar Teste Completo**.
 4. Observe no console e no `<pre>` o fluxo completo de:
