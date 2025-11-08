@@ -209,15 +209,6 @@ const obj = JSON.parse(plain);
 
 ---
 
-## README para o GitHub (sugestão rápida)
-
-* Incluir badge de licença MIT;
-* Instruções de uso (incluir snippets acima);
-* Política de segurança e contato (para reportar vulnerabilidades);
-* Changelog com versões de SALT (ex.: `v1.0 SALT_AUTH = Metafree::Auth.v1`).
-
----
-
 ## Conclusão
 
 O `CryptoUtil.js` empacota práticas modernas de criptografia aplicáveis a um serviço web no qual:
