@@ -9,6 +9,40 @@ Uma biblioteca Javascript robusta para oferecer serviços de autenticação, cri
 
 ---
 
+# Especificações técnicas
+
+```javascript
+/**
+ * ============================================================
+ * 🧠 SOBRE ESTE ALGORITMO
+ * ------------------------------------------------------------
+ * O Metafree Core foi desenvolvido com base nas recomendações:
+ *
+ * - NIST SP 800-132 (Derivação PBKDF2)
+ * - NIST SP 800-38D (AES-GCM)
+ * - FIPS 186-4 (ECDSA/RSA Assinatura)
+ * - RFC 7518 (JSON Web Algorithms)
+ *
+ * Design motivado pelo princípio:
+ * > "A segurança deve ser verificável — não presumida."
+ * 
+ * O uso de SALT fixo para autenticação garante que a senha
+ * do usuário gere sempre a mesma hash derivada para login
+ * (permitindo validação bcrypt no servidor), enquanto o
+ * SALT prefixado com ID garante exclusividade por registro.
+ * 
+ * O resultado é uma arquitetura híbrida:
+ * - 🔑 Criptografia local (client-side)
+ * - 🧾 Autenticação segura (server-side)
+ * - 🧱 Base para blockchain de evidências verificáveis
+ * ============================================================
+ */
+
+```
+
+---
+
+
 ## Objetivos e contexto (por que criamos isto)
 
 1. **Privacidade e “zero-knowledge”** — os dados sensíveis (ex.: nome, CPF, endereço) são cifrados no cliente e o servidor **não** deve ter acesso ao texto claro.
