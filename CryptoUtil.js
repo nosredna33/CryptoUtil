@@ -11,7 +11,7 @@
  * 
  * Compatível com: Navegador (WebCrypto API) e Node.js.
  * 
- * @version 1.0.0
+ * @version 1.5.0
  * @license MIT
  * @author 
  *   Metafree © 2025
